@@ -29,14 +29,18 @@ app_license = "MIT"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {"Work Order" : "customizations/work_order/work_order.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
 # Home Pages
 # ----------
+# Class Function Overrides
+from erpnext.manufacturing.doctype.work_order.work_order import WorkOrder
+from parasons_mf.customizations.work_order.work_order import set_required_items
 
+WorkOrder.set_required_items = set_required_items
 # application home page (will override Website Settings)
 # home_page = "login"
 
