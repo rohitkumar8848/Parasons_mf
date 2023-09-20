@@ -246,7 +246,7 @@ class StockBalanceReport(object):
 				if fieldname == "item_code":
 					if len(self.filters.get(fieldname)) > 1:
 						item_code = tuple(self.filters.get(fieldname))
-						query = query.where(table[fieldname] in item_code)
+						query = query.where(table[fieldname].isin(item_code))
 					elif len(self.filters.get(fieldname)) == 1:
 						item_code = (self.filters.get(fieldname)[0])
 						query = query.where(table[fieldname] == item_code)
@@ -338,7 +338,6 @@ class StockBalanceReport(object):
 					query = query.where(item_table.name == item_code) 
 			else:
 				query = query.where(item_table[field] == self.filters.get(field))
-		frappe.msgprint(str(query))
 		return query
 
 	def apply_date_filters(self, query, sle) -> str:
