@@ -2,7 +2,7 @@ from erpnext.manufacturing.doctype.bom.bom import (
 	get_bom_items_as_dict,
 )
 import frappe
-
+import json
 def set_required_items(self, reset_only_qty=False):
     """set required_items for production to keep track of reserved qty"""
     if not reset_only_qty:
@@ -47,3 +47,17 @@ def set_required_items(self, reset_only_qty=False):
                     self.project = item.get("project")
 
         self.set_available_qty()
+
+
+@frappe.whitelist()
+def get_warehouse(doc, plant):
+    rows = []
+    doc = json.loads(doc)
+    if doc.get("required_items"):
+        for i in doc.get("required_items"):
+            item_group = frappe.db.get_value("Item", i.get("item_code"),'item_group')
+            warehouses = frappe.db.sql(f"select default_warehouse from `tabItem Default` where parent = '{item_group}'",as_dict=1)
+            warehouse_list = [j.get("default_warehouse") for j in warehouses]
+            child_warehouse = frappe.db.get_value("Warehouse",{'name':['in', warehouse_list],"plant":plant},'name')
+            rows.append({"item_code":i.get("item_code"),"source_warehouse":child_warehouse})
+    return rows
