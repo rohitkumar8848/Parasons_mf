@@ -219,3 +219,6 @@ WorkOrder.set_required_items = set_required_items
 # auth_hooks = [
 #	"parasons_mf.auth.validate"
 # ]
+fixtures = [
+    {"dt": "Custom Field", "filters": [["module", "=", "Parasons MF"]]},
+]
