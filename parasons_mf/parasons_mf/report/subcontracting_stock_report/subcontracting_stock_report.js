@@ -16,7 +16,6 @@ frappe.query_reports["Subcontracting Stock Report"] = {
 		"label": __("Supplier"),
 		"fieldtype": "Link",
 		"options":"Supplier",
-		"reqd":1,
 		"width": "80",
 },
 	]

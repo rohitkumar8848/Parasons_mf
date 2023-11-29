@@ -105,6 +105,14 @@ frappe.query_reports["Stock Balance New"] = {
 			"fieldtype": 'Check',
 			"default": 1
 		},
+		{
+			"fieldname": "clear_filters",
+			"fieldtype": "Button",
+			"label":"Clear Item Filters",
+			onclick: function(data){
+				frappe.query_report.set_filter_value('item_code', []);
+			}
+		}
 	],
 
 	"formatter": function (value, row, column, data, default_formatter) {
