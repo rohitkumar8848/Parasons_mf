@@ -34,7 +34,7 @@ def set_required_items(self, reset_only_qty=False):
                         "operation": item.operation or operation,
                         "item_code": item.item_code,
                         "item_name": item.item_name,
-                        "unit":item.stock_uom,
+                        "custom_unit":item.stock_uom,
                         "description": item.description, 
                         "allow_alternative_item": item.allow_alternative_item,
                         "required_qty": item.qty,

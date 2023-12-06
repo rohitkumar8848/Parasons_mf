@@ -39,15 +39,15 @@ def get_conditions(filters):
 def get_data(filters):
 	rows = []
 	conditions = get_conditions(filters)
-	wo = frappe.db.sql(f"""select name, plant, owner, date(creation) as date
+	wo = frappe.db.sql(f"""select name, custom_plant as plant, owner, date(creation) as date
 					from `tabWork Order` {conditions}  """,as_dict=1)
 	for data in wo:
 		name_count = frappe.db.sql(f"""select count(name) as name_count  from `tabWork Order Item` 
 							where transferred_qty!=required_qty and parent = '{data.name}' """,as_dict=1)
 		if name_count[0].name_count > 0:
 			rows.append({"work_order":data.name,"date":data.date,"owner":frappe.db.get_value("User",data.owner,'full_name'),"plant":data.plant})
-		wo_items = frappe.db.sql(f"""select item_code,unit as uom,source_warehouse,
-						(select plant from `tabWork Order` where name = '{data.name}') as plant,
+		wo_items = frappe.db.sql(f"""select item_code,custom_unit as uom,source_warehouse,
+						(select custom_plant from `tabWork Order` where name = '{data.name}') as plant,
 						required_qty as qty,consumed_qty, transferred_qty from `tabWork Order Item` where transferred_qty!=required_qty and 
 						parent = '{data.name}' """,as_dict=1)
 		for i in wo_items:
